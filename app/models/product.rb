@@ -1,25 +1,19 @@
 class Product < ApplicationRecord
   # #This defines the paypal url for a given product sale
-  def paypal_url(return_url)
-  values = {
-  :business => 'kapitaliz@gmail.com',
-  :cmd => '_cart',
-  :upload => 1,
-  :return => return_url,
-  :invoice => SecureRandom.uuid,
-  :notify_url => "#{Rails.application.secrets.app_host}/payment_notification"
-  }
-
-  values.merge!({
-  "amount_1" => unit_price,
-  "item_name_1" => name,
-  "item_number_1" => id,
-  "quantity_1" => '1'
-  })
-
-  # This is a paypal sandbox url and should be changed for production.
-  # Better define this url in the application configuration setting on environment
-  # basis.
-  "https://www.sandbox.paypal.com/cgi-bin/webscr?" + values.to_query
+  serialize :notification_params, Hash
+  def paypal_url(return_path)
+    values = {
+        business: "kapitaliz@gmail.com",
+        cmd: "_xclick",
+        upload: 1,
+        return: "#{Rails.application.secrets.app_host}#{return_path}",
+        invoice: SecureRandom.uuid,
+        amount: unit_price,
+        item_name: name,
+        item_number: id,
+        quantity: '1',
+        notify_url: "#{Rails.application.secrets.app_host}/hook"
+    }
+    "https://www.sandbox.paypal.com/cgi-bin/webscr?" + values.to_query
   end
 end
