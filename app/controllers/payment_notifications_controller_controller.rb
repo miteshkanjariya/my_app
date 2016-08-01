@@ -1,9 +1,12 @@
 class PaymentNotificationsController < ApplicationController
-  protect_from_forgery :except => [:create]
+  protect_from_forgery except: [:create]
   def create
-    puts "*******************got pay-pal notification************************"
-    PaymentNotification.create!(:params => params, :status => params[:payment_status], :transaction_id => params[:txn_id] )
-    render :nothing => true
+    params.permit! # Permit all Paypal input params
+    status = params[:payment_status]
+    if status == "Completed"
+      puts "************************paypal-notification*************************"
+    end
+    render nothing: true
   end
 
 end
