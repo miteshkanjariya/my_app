@@ -6,7 +6,7 @@ class Product < ApplicationRecord
         business: "kapitaliz@gmail.com",
         cmd: "_xclick",
         upload: 1,
-        return: "#{Rails.application.secrets.app_host}#{return_path}",
+        return: return_path,
         invoice: SecureRandom.uuid,
         amount: unit_price,
         item_name: name,
