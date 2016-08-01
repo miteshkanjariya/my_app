@@ -12,7 +12,7 @@ class Product < ApplicationRecord
         item_name: name,
         item_number: id,
         quantity: '1',
-        notify_url: "#{Rails.application.secrets.app_host}/hook"
+        notify_url: "#{Rails.application.secrets.app_host}/payment_notification"
     }
     "https://www.sandbox.paypal.com/cgi-bin/webscr?" + values.to_query
   end
