@@ -1,12 +1,13 @@
 class Product < ApplicationRecord
   # This defines the paypal url for a given product sale
-  def paypal_url(return_url, notify_url)
+  def paypal_url(return_url)
   values = {
   :business => 'kapitaliz@gmail.com',
   :cmd => '_cart',
   :upload => 1,
   :return => return_url,
-  :invoice => SecureRandom.uuid
+  :invoice => SecureRandom.uuid,
+  :notify_url => "#{Rails.application.secrets.app_host}/payment_notification"
   }
 
   values.merge!({
