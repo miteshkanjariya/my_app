@@ -1,5 +1,5 @@
 class Product < ApplicationRecord
-  # This defines the paypal url for a given product sale
+  # #This defines the paypal url for a given product sale
   def paypal_url(return_url)
   values = {
   :business => 'kapitaliz@gmail.com',
